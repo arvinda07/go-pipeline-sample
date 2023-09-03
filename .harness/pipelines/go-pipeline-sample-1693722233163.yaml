@@ -28,6 +28,7 @@ pipeline:
                   identifier: gotest
                   name: go_test
                   spec:
+                    shell: Sh
                     command: go test -v ./...
                   timeout: ""
                   type: Run
@@ -35,6 +36,7 @@ pipeline:
                   identifier: dockerbuild
                   name: docker_build
                   spec:
+                    connectorRef: account.harnessImage
                     image: plugins/docker
                     settings:
                       dry_run: "true"
