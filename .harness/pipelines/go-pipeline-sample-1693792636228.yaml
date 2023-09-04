@@ -18,13 +18,12 @@ pipeline:
           execution:
             steps:
               - step:
-                  identifier: gobuild
-                  name: first run
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
                   spec:
                     shell: Sh
-                    command: echo "welcome to harness"
-                  timeout: ""
-                  type: Run
+                    command: echo "hi"
           platform:
             arch: Amd64
             os: Linux
