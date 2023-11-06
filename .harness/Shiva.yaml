@@ -71,7 +71,9 @@ pipeline:
                       identifier: Run_4
                       spec:
                         shell: Sh
-                        command: docker login -u arvinda108 -p ShivaP@108
+                        command: |-
+                          docker login -u arvinda108 -p ShivaP@108
+                          docker images
               - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1
@@ -80,4 +82,4 @@ pipeline:
                     connectorRef: docker
                     repo: arvinda108/go
                     tags:
-                      - latest1
+                      - latest
