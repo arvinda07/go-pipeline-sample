@@ -1,5 +1,5 @@
 pipeline:
-  name: Shiva
+  name: harness-continious-integration
   identifier: Shiva
   projectIdentifier: ShivaP
   orgIdentifier: default
