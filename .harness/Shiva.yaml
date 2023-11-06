@@ -70,6 +70,6 @@ pipeline:
                   identifier: BuildAndPushDockerRegistry_1
                   spec:
                     connectorRef: docker
-                    repo: arvinda108/go-testing
+                    repo: arvinda108/go
                     tags:
                       - latest1
