@@ -72,4 +72,4 @@ pipeline:
                     connectorRef: docker
                     repo: arvinda108/go-testing
                     tags:
-                      - latest
+                      - latest1
