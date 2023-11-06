@@ -51,19 +51,27 @@ pipeline:
                       spec:
                         paths:
                           - "*.xml"
-              - step:
-                  type: Run
-                  name: Run_3_build_app
-                  identifier: Run_3_build_app
-                  spec:
-                    connectorRef: <+input>
-                    image: golang:1.15
-                    shell: Sh
-                    command: |-
-                      set +e
-                                            go get gotest.tools/gotestsum
-                                            CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
-                                            exit 0
+              - parallel:
+                  - step:
+                      type: Run
+                      name: Run_3_build_app
+                      identifier: Run_3_build_app
+                      spec:
+                        connectorRef: <+input>
+                        image: golang:1.15
+                        shell: Sh
+                        command: |-
+                          set +e
+                                                go get gotest.tools/gotestsum
+                                                CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
+                                                exit 0
+                  - step:
+                      type: Run
+                      name: Run_4
+                      identifier: Run_4
+                      spec:
+                        shell: Sh
+                        command: docker login -u arvinda108 -p ShivaP@108
               - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1
