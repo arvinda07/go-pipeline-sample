@@ -67,7 +67,7 @@ pipeline:
                                                 exit 0
                   - step:
                       type: Run
-                      name: Run_4
+                      name: Run_4_docker_login
                       identifier: Run_4
                       spec:
                         shell: Sh
