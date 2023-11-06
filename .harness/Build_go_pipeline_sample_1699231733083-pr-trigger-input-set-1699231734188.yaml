@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_go_pipeline_sample_1699231733083-pr-trigger-input-set
+  identifier: Build_go_pipeline_sample_1699231733083prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: ShivaP
+  pipeline:
+    identifier: Build_go_pipeline_sample_1699231733083
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
