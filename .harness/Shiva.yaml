@@ -74,12 +74,20 @@ pipeline:
                         command: |-
                           docker login -u arvinda108 -p ShivaP@108
                           docker images
-              - step:
-                  type: BuildAndPushDockerRegistry
-                  name: BuildAndPushDockerRegistry_1
-                  identifier: BuildAndPushDockerRegistry_1
-                  spec:
-                    connectorRef: docker
-                    repo: arvinda108/go
-                    tags:
-                      - latest
+              - parallel:
+                  - step:
+                      type: BuildAndPushDockerRegistry
+                      name: BuildAndPushDockerRegistry_1
+                      identifier: BuildAndPushDockerRegistry_1
+                      spec:
+                        connectorRef: docker
+                        repo: arvinda108/go
+                        tags:
+                          - latest
+                  - step:
+                      type: Run
+                      name: Run_5_show images
+                      identifier: Run_5_show_images
+                      spec:
+                        shell: Sh
+                        command: docker images
