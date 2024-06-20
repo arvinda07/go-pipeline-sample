@@ -1,0 +1,93 @@
+pipeline:
+  name: harness-continious-integration
+  identifier: Shiva
+  projectIdentifier: ShivaP
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.Github_OAuth_1699231710767
+        repoName: arvinda07/go-pipeline-sample
+        build: <+input>
+  stages:
+    - stage:
+        name: simple
+        identifier: simple
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec:
+                    shell: Sh
+                    command: echo "welcome to harness"
+              - step:
+                  type: Run
+                  name: Run_2_unit_test
+                  identifier: Run_2_unit_test
+                  spec:
+                    connectorRef: <+input>
+                    image: golang:1.15
+                    shell: Sh
+                    command: |-
+                      set +e
+                                            go get gotest.tools/gotestsum
+                                            gotestsum --format=standard-verbose --junitfile unit-tests.xml
+                                            exit 0
+                    reports:
+                      type: JUnit
+                      spec:
+                        paths:
+                          - "*.xml"
+              - parallel:
+                  - step:
+                      type: Run
+                      name: Run_3_build_app
+                      identifier: Run_3_build_app
+                      spec:
+                        connectorRef: <+input>
+                        image: golang:1.15
+                        shell: Sh
+                        command: |-
+                          set +e
+                                                go get gotest.tools/gotestsum
+                                                CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
+                                                exit 0
+                  - step:
+                      type: Run
+                      name: Run_4_docker_login
+                      identifier: Run_4
+                      spec:
+                        shell: Sh
+                        command: |-
+                          docker login -u arvinda108 -p ShivaP@108
+                          docker images
+              - parallel:
+                  - step:
+                      type: BuildAndPushDockerRegistry
+                      name: BuildAndPushDockerRegistry_1
+                      identifier: BuildAndPushDockerRegistry_1
+                      spec:
+                        connectorRef: docker
+                        repo: arvinda108/go
+                        tags:
+                          - latest
+                  - step:
+                      type: Run
+                      name: Run_5_show images
+                      identifier: Run_5_show_images
+                      spec:
+                        shell: Sh
+                        command: docker images
